@@ -4,7 +4,7 @@ defmodule Stripe.PlanTest do
   setup_all do
     Stripe.Plans.delete_all
     :ok
-end
+  end
 
   test "Creation" do
     case Stripe.Plans.create([id: "test-plan", name: "Test Plan", amount: 1000]) do
@@ -12,9 +12,16 @@ end
       {:error, err} -> flunk err
     end
   end
-  
+
   test "Creation w/key" do
     case Stripe.Plans.create([id: "test-plan2", name: "Test Plan 2", amount: 1000], Stripe.config_or_env_key) do
+      {:ok, plan} -> assert plan.id == "test-plan2"
+      {:error, err} -> flunk err
+    end
+  end
+
+  test "Get by id" do
+    case Stripe.Plans.get("test-plan2") do
       {:ok, plan} -> assert plan.id == "test-plan2"
       {:error, err} -> flunk err
     end
@@ -33,7 +40,7 @@ end
       {:error, err} -> flunk err
     end
   end
-  
+
   test "Plan change" do
     case Stripe.Plans.change("test-plan",[name: "Other Plan"]) do
       {:ok, plan} -> assert plan.name == "Other Plan"

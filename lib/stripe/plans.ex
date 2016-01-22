@@ -5,6 +5,19 @@ defmodule Stripe.Plans do
 
   @endpoint "plans"
 
+
+  @doc """
+  Get a plan by id
+  """
+  def get(id) do
+    get id, Stripe.config_or_env_key
+  end
+
+  def get(id, key) do
+    Stripe.make_request_with_key(:get, "#{@endpoint}/#{id}", key)
+    |> Stripe.Util.handle_stripe_response
+  end
+
   @doc """
   Creates a Plan. Note that `currency` and `interval` are required parameters, and are defaulted to "USD" and "month"
 
@@ -34,7 +47,7 @@ defmodule Stripe.Plans do
 
     Stripe.make_request_with_key(:post, @endpoint, key, params)
     |> Stripe.Util.handle_stripe_response
-    
+
   end
 
   @doc """
@@ -43,7 +56,7 @@ defmodule Stripe.Plans do
   def list(limit \\ 10) do
     list Stripe.config_or_env_key, limit
   end
-  
+
   @doc """
   Returns a list of Plans using the given key.
   """
@@ -65,7 +78,7 @@ defmodule Stripe.Plans do
   def delete(id) do
     delete id, Stripe.config_or_env_key
   end
-  
+
   @doc """
   Deletes a Plan with the specified ID using the given key.
 
