@@ -17,6 +17,19 @@ defmodule Stripe.Customers do
   @endpoint "customers"
 
   @doc """
+  Gets subscriptions for a given user
+  """
+  def get_subscriptions(customer_id) do
+    get_subscriptions(id, Stripe.config_or_env_key)
+  end
+
+
+  def get_subscriptions(customer_id, key) do
+    Stripe.make_request_with_key(:get, "#{@endpoint}/subscriptions", key)
+    |> Stripe.Util.handle_stripe_response
+  end
+
+  @doc """
   Creates a Customer with the given parameters - all of which are optional.
 
   ## Example
@@ -65,7 +78,7 @@ defmodule Stripe.Customers do
   ## Example
 
   ```
-    {:ok, cust} = Stripe.Customers.get "customer_id" 
+    {:ok, cust} = Stripe.Customers.get "customer_id"
   ```
 
   """
@@ -141,7 +154,7 @@ defmodule Stripe.Customers do
     Stripe.make_request_with_key(:delete, "#{@endpoint}/#{id}", key)
     |> Stripe.Util.handle_stripe_response
   end
-  
+
   @doc """
   Deletes all Customers
 
@@ -191,7 +204,7 @@ defmodule Stripe.Customers do
   def all( accum \\ [], starting_after \\ "") do
     all Stripe.config_or_env_key, accum, starting_after
   end
-  
+
   @doc """
   List all customers.
   Using a given stripe key to apply against the account associated.
