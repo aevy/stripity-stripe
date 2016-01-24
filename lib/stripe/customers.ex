@@ -20,7 +20,7 @@ defmodule Stripe.Customers do
   Gets subscriptions for a given user
   """
   def get_subscriptions(customer_id) do
-    get_subscriptions(id, Stripe.config_or_env_key)
+    get_subscriptions(customer_id, Stripe.config_or_env_key)
   end
 
 
