@@ -25,7 +25,7 @@ defmodule Stripe.Customers do
 
 
   def get_subscriptions(customer_id, key) do
-    Stripe.make_request_with_key(:get, "#{@endpoint}/subscriptions", key)
+    Stripe.make_request_with_key(:get, "#{@endpoint}/#{customer_id}/subscriptions", key)
     |> Stripe.Util.handle_stripe_response
   end
 
