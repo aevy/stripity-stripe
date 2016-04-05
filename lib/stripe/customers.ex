@@ -100,6 +100,41 @@ defmodule Stripe.Customers do
     |> Stripe.Util.handle_stripe_response
   end
 
+
+  @doc """
+  Updates a Customer with the given parameters - all of which are optional.
+
+  ## Example
+
+  ```
+    new_fields = [
+      email: "new_email@test.com",
+      description: "New description",
+    ]
+    {:ok, res} = Stripe.Customers.update(customer_id, new_fields)
+  ```
+
+  """
+  def update(customer_id, params) do
+    update(customer_id, params, Stripe.config_or_env_key)
+  end
+
+  @doc """
+  Updates a Customer with the given parameters - all of which are optional.
+  Using a given stripe key to apply against the account associated.
+
+  ## Example
+  ```
+  {:ok, res} = Stripe.Customers.update(customer_id, new_fields, key)
+  ```
+  """
+  def update(customer_id, params, key) do
+    Stripe.make_request_with_key(:post, "#{@endpoint}/#{customer_id}", key, params)
+    |> Stripe.Util.handle_stripe_response
+  end
+
+
+
   @doc """
   Returns a list of Customers with a default limit of 10 which you can override with `list/1`
 
