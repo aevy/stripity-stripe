@@ -111,6 +111,13 @@
     Stripe.Util.list @endpoint, key,  starting_after, limit
   end
 
+  def for_customer(id), do: for_customer(Stripe.config_or_env_key, id)
+  def for_customer(key, id) do
+    q = "#{endpoint}?customer=#{id}"
+    Stripe.make_request_with_key(:get, q, key)
+    |> Stripe.Util.handle_stripe_full_response
+  end
+
 
   @doc """
   Create invoice according to Stripe's invoice rules. This is not the same as a charge.
