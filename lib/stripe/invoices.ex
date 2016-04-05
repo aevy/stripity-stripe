@@ -113,7 +113,7 @@
 
   def for_customer(id), do: for_customer(Stripe.config_or_env_key, id)
   def for_customer(key, id) do
-    q = "#{endpoint}?customer=#{id}"
+    q = "#{@endpoint}?customer=#{id}"
     Stripe.make_request_with_key(:get, q, key)
     |> Stripe.Util.handle_stripe_full_response
   end
