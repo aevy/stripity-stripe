@@ -8,7 +8,7 @@
 
   All calls have a version with accept a key parameter for leveraging Connect.
 
-  (API ref:https://stripe.com/docs/api#invoices) 
+  (API ref:https://stripe.com/docs/api#invoices)
   """
 
   @endpoint "invoices"
@@ -66,7 +66,7 @@
   ## Example
 
   ```
-  {:ok, cnt} = Stripe.Invoices.count 
+  {:ok, cnt} = Stripe.Invoices.count
   ```
   """
   def count do
@@ -79,7 +79,7 @@
   ## Example
 
   ```
-  {:ok, cnt} = Stripe.Invoices.count key 
+  {:ok, cnt} = Stripe.Invoices.count key
   ```
   """
   def count(key) do
