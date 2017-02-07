@@ -53,14 +53,20 @@ defmodule Stripe do
     * options - request options
   Returns dict
   """
-  def make_request_with_key( method, endpoint, key, body \\ [], headers \\ [], options \\ []) do
+  def make_request_with_key( method, endpoint, key, body \\ [], headers \\ [], options \\ [], retries \\ 0) do
     rb = Stripe.URI.encode_query(body)
     rh = req_headers( key )
         |> Dict.merge(headers)
         |> Dict.to_list
 
-    {:ok, response} = request(method, endpoint, rb, rh, options)
-    response.body
+    case request(method, endpoint, rb, rh, options) do
+      {:ok, response} -> response.body
+      {:error, exception} -> if retries < 3 do
+                               make_request_with_key(method, endpoint, key, body, headers, options, retries + 1)
+                             else
+                               raise exception
+                             end
+    end
   end
 
   @doc """
